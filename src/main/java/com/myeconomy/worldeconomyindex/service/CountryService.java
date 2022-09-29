@@ -1,5 +1,6 @@
 package com.myeconomy.worldeconomyindex.service;
 
+import com.myeconomy.worldeconomyindex.exceptions.DataExistingException;
 import com.myeconomy.worldeconomyindex.model.Country;
 import com.myeconomy.worldeconomyindex.repository.CountryRepository;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class CountryService {
         Optional<Country> countryOptional = countryRepository.findCountryByCountryName(country.getCountryName());
 
         if (countryOptional.isPresent()) {
-            throw new IllegalStateException("Country already exists!!!");
+            throw new DataExistingException("Country already exists!!!");
         }
 
         countryRepository.save(country);
