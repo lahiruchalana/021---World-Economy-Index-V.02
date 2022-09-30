@@ -1,8 +1,7 @@
 package com.myeconomy.worldeconomyindex.service;
 
 import com.myeconomy.worldeconomyindex.exceptions.DataExistingException;
-import com.myeconomy.worldeconomyindex.exceptions.NoDataAvailable;
-import com.myeconomy.worldeconomyindex.model.Country;
+import com.myeconomy.worldeconomyindex.exceptions.NoDataAvailableException;
 import com.myeconomy.worldeconomyindex.model.Currency;
 import com.myeconomy.worldeconomyindex.repository.CurrencyRepository;
 import org.springframework.stereotype.Service;
@@ -36,7 +35,7 @@ public class CurrencyService {
 
     @Transactional
     public void updateCurrency(Long currencyId, Currency currency) {
-        Currency currencyFound = currencyRepository.findById(currencyId).orElseThrow(() -> new NoDataAvailable("CurrencyId does not exist!!!"));
+        Currency currencyFound = currencyRepository.findById(currencyId).orElseThrow(() -> new NoDataAvailableException("CurrencyId does not exist!!!"));
 
         Optional<Currency> currencyOptional = currencyRepository.findCurrencyByCurrencyName(currency.getCurrencyName());
 
@@ -49,7 +48,7 @@ public class CurrencyService {
     }
 
     public void deleteCurrency(Long currencyId) {
-        Currency currency = currencyRepository.findById(currencyId).orElseThrow(() -> new NoDataAvailable("CurrencyId does not exist!!!"));
+        Currency currency = currencyRepository.findById(currencyId).orElseThrow(() -> new NoDataAvailableException("CurrencyId does not exist!!!"));
 
         currencyRepository.delete(currency);
     }

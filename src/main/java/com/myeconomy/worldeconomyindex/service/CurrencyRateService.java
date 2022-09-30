@@ -1,6 +1,8 @@
 package com.myeconomy.worldeconomyindex.service;
 
 import com.myeconomy.worldeconomyindex.exceptions.DataExistingException;
+import com.myeconomy.worldeconomyindex.exceptions.InvalidInputException;
+import com.myeconomy.worldeconomyindex.exceptions.NoDataAvailableException;
 import com.myeconomy.worldeconomyindex.model.Currency;
 import com.myeconomy.worldeconomyindex.model.CurrencyRate;
 import com.myeconomy.worldeconomyindex.repository.CurrencyRateRepository;
@@ -26,13 +28,13 @@ public class CurrencyRateService {
 
     public void addNewCurrencyRate(CurrencyRate currencyRate) {
         if(currencyRate.getCurrency().getCurrencyId().equals(currencyRate.getEqualsCurrency().getCurrencyId())) {
-            throw new IllegalStateException("adding currencyRate currencyID : " + currencyRate.getCurrency().getCurrencyId() + " and equalsCurrencyId : " + currencyRate.getEqualsCurrency().getCurrencyId() + " are same.");
+            throw new InvalidInputException("Currency and EqualsCurrency are same!!!");
         }
 
         Optional<CurrencyRate> optionalCurrencyRate = currencyRateRepository.getCurrencyRatesByYearAndMonthAndDayAndCurrencyCurrencyIdAndEqualsCurrencyCurrencyId(currencyRate.getYear(), currencyRate.getMonth(), currencyRate.getDay(), currencyRate.getCurrency().getCurrencyId(), currencyRate.getEqualsCurrency().getCurrencyId());
 
         if (optionalCurrencyRate.isPresent()) {
-            throw new DataExistingException("Data exist for relevant date");
+            throw new DataExistingException("CurrencyRate exists for relevant date!!!");
         }
 
         currencyRateRepository.save(currencyRate);
@@ -45,19 +47,19 @@ public class CurrencyRateService {
     @Transactional
     public void updateCurrencyRate(Long currencyRateId, Long currencyId, CurrencyRate currencyRateNew) {
         if(currencyId.equals(currencyRateNew.getEqualsCurrency().getCurrencyId())) {
-            throw new IllegalStateException("new currencyRate currency : " + currencyId + " and equalsCurrency : " + currencyRateNew.getEqualsCurrency().getCurrencyName() + " are same.");
+            throw new InvalidInputException("Currency and EqualsCurrency are same!!!");
         }
 
         Optional<CurrencyRate> optionalCurrencyRate = currencyRateRepository.getCurrencyRatesByYearAndMonthAndDayAndCurrencyCurrencyIdAndEqualsCurrencyCurrencyId(currencyRateNew.getYear(), currencyRateNew.getMonth(), currencyRateNew.getDay(), currencyId, currencyRateNew.getEqualsCurrency().getCurrencyId());
 
         if (optionalCurrencyRate.isPresent() && !currencyRateId.equals(optionalCurrencyRate.get().getCurrencyRateId())) {
-            throw new IllegalStateException("existing currency rate available for relevant " + currencyRateNew.getYear() + "-" + currencyRateNew.getMonth() + "-" + currencyRateNew.getDay() +" date, so please change year, month, date or update");
+            throw new DataExistingException("Existing CurrencyRate available for relevant " + currencyRateNew.getYear() + "-" + currencyRateNew.getMonth() + "-" + currencyRateNew.getDay() +" date, so please change year, month, date or update!!!");
         }
 
-        CurrencyRate currencyRate = currencyRateRepository.findById(currencyRateId).orElseThrow(() -> new IllegalStateException("currencyRate id : " + currencyRateId + " does not exist"));
+        CurrencyRate currencyRate = currencyRateRepository.findById(currencyRateId).orElseThrow(() -> new NoDataAvailableException("CurrencyRate does not exist!!!"));
 
-        Currency currency = currencyRepository.findById(currencyId).orElseThrow(() -> new IllegalStateException("currencyId not exist"));
-        Currency equalsCurrency = currencyRepository.findById(currencyRateNew.getEqualsCurrency().getCurrencyId()).orElseThrow(() -> new IllegalStateException("equalsCurrencyId not exist"));
+        Currency currency = currencyRepository.findById(currencyId).orElseThrow(() -> new NoDataAvailableException("Currency does not exist!!!"));
+        Currency equalsCurrency = currencyRepository.findById(currencyRateNew.getEqualsCurrency().getCurrencyId()).orElseThrow(() -> new NoDataAvailableException("EqualsCurrency does not exist!!!"));
 
 
 
@@ -89,14 +91,14 @@ public class CurrencyRateService {
         }
 
         if (currencyRatesByCurrencyCurrencyNameAndEqualsCurrencyCurrencyName.isEmpty()) {
-            throw new IllegalStateException("currencyName : " + currencyName + " and equalsCurrencyName : " + equalsCurrencyName + " does not exist any CurrencyRate Data");
+            throw new NoDataAvailableException("CurrencyName : " + currencyName + " and EqualsCurrencyName : " + equalsCurrencyName + " does not exist any CurrencyRate!!!");
         }
 
         return currencyRatesByCurrencyCurrencyNameAndEqualsCurrencyCurrencyName;
     }
 
     public void deleteCurrencyRate(Long currencyRateId) {
-        CurrencyRate currencyRate = currencyRateRepository.findById(currencyRateId).orElseThrow(() -> new IllegalStateException("currencyRate id : " + currencyRateId + " does not exist"));
+        CurrencyRate currencyRate = currencyRateRepository.findById(currencyRateId).orElseThrow(() -> new NoDataAvailableException("CurrencyRate does not exist!!!"));
 
         currencyRateRepository.delete(currencyRate);
     }
@@ -119,7 +121,7 @@ public class CurrencyRateService {
         }
 
         if (currencyRatesByCurrencyCurrencyNameAndEqualsCurrencyCurrencyName.isEmpty()) {
-            throw new IllegalStateException("currencyName : " + currencyName + " and equalsCurrencyName : " + equalsCurrencyName + " does not exist any CurrencyRate Data");
+            throw new NoDataAvailableException("CurrencyName : " + currencyName + " and EqualsCurrencyName : " + equalsCurrencyName + " does not exist any CurrencyRate!!!");
         }
 
         return currencyRatesByCurrencyCurrencyNameAndEqualsCurrencyCurrencyName;

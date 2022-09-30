@@ -5,11 +5,11 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class NoDataAvailable extends RuntimeException {
+public class InvalidInputException extends RuntimeException{
 
     private String message;
 
-    public NoDataAvailable(String message) {
+    public InvalidInputException(String message) {
         super(message);
         this.message = message;
     }

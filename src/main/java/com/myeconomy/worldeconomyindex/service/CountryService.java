@@ -1,7 +1,7 @@
 package com.myeconomy.worldeconomyindex.service;
 
 import com.myeconomy.worldeconomyindex.exceptions.DataExistingException;
-import com.myeconomy.worldeconomyindex.exceptions.NoDataAvailable;
+import com.myeconomy.worldeconomyindex.exceptions.NoDataAvailableException;
 import com.myeconomy.worldeconomyindex.model.Country;
 import com.myeconomy.worldeconomyindex.repository.CountryRepository;
 import org.springframework.stereotype.Service;
@@ -33,21 +33,21 @@ public class CountryService {
         List<Country> countryList = countryRepository.findAll();
 
         if (countryList.isEmpty()) {
-            throw new NoDataAvailable("No available country data!!!");
+            throw new NoDataAvailableException("No available country data!!!");
         }
 
         return countryList;
     }
 
     public void deleteCountry(Long countryId) {
-        Country country = countryRepository.findById(countryId).orElseThrow(() -> new NoDataAvailable("CountryId does not available to delete!!!"));
+        Country country = countryRepository.findById(countryId).orElseThrow(() -> new NoDataAvailableException("CountryId does not available to delete!!!"));
 
         countryRepository.delete(country);
     }
 
     @Transactional
     public void updateCountry(Long countryId, String countryName, String continentName, String subContinentName) {
-        Country country = countryRepository.findById(countryId).orElseThrow(() -> new NoDataAvailable("CountryId does not available to update!!!"));
+        Country country = countryRepository.findById(countryId).orElseThrow(() -> new NoDataAvailableException("CountryId does not available to update!!!"));
 
         Optional<Country> countryOptional = countryRepository.findCountryByCountryName(countryName);
 

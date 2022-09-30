@@ -22,7 +22,6 @@ public interface CurrencyRateRepository extends JpaRepository<CurrencyRate, Long
 
 
 
-
     Page<CurrencyRate> getCurrencyRatesByCurrencyCurrencyNameAndEqualsCurrencyCurrencyNameOrderByYearAscMonthAscDayAsc(String currencyName, String equalsCurrencyName, Pageable pageable);
 
     Page<CurrencyRate> getCurrencyRatesByCurrencyCurrencyNameAndEqualsCurrencyCurrencyNameOrderByYearDescMonthDescDayDesc(String currencyName, String equalsCurrencyName, Pageable pageable);
