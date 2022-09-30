@@ -33,26 +33,26 @@ public class CountryService {
         List<Country> countryList = countryRepository.findAll();
 
         if (countryList.isEmpty()) {
-            throw new NoDataAvailable("No available country data");
+            throw new NoDataAvailable("No available country data!!!");
         }
 
         return countryList;
     }
 
     public void deleteCountry(Long countryId) {
-        Country country = countryRepository.findById(countryId).orElseThrow(() -> new NoDataAvailable("CountryId not available to delete"));
+        Country country = countryRepository.findById(countryId).orElseThrow(() -> new NoDataAvailable("CountryId not available to delete!!!"));
 
         countryRepository.delete(country);
     }
 
     @Transactional
     public void updateCountry(Long countryId, String countryName, String continentName, String subContinentName) {
-        Country country = countryRepository.findById(countryId).orElseThrow(() -> new NoDataAvailable("CountryId not available to update"));
+        Country country = countryRepository.findById(countryId).orElseThrow(() -> new NoDataAvailable("CountryId not available to update!!!"));
 
         Optional<Country> countryOptional = countryRepository.findCountryByCountryName(countryName);
 
         if (countryOptional.isPresent()) {
-            throw new DataExistingException("CountryName already exists");
+            throw new DataExistingException("CountryName already exists!!!");
         }
 
         country.setCountryName(countryName);
