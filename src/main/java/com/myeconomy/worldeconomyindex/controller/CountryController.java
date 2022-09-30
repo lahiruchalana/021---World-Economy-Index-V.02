@@ -36,10 +36,21 @@ public class CountryController {
     }
 
     @DeleteMapping(path = "countries/{countryId}")
-    public ResponseEntity<?> deleteCountryById(
+    public ResponseEntity<?> deleteCountry(
             @PathVariable("countryId") Long countryId
     ) {
-        countryService.deleteCountryById(countryId);
+        countryService.deleteCountry(countryId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping(path = "countries/{countryID}")
+    public ResponseEntity<?> updateCountry(
+            @PathVariable("countryID") Long countryId,
+            @RequestParam(required = false) String countryName,
+            @RequestParam(required = false) String continentName,
+            @RequestParam(required = false) String subContinentName
+    ) {
+        countryService.updateCountry(countryId, countryName, continentName, subContinentName);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
