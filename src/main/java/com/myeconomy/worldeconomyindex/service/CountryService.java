@@ -6,6 +6,7 @@ import com.myeconomy.worldeconomyindex.model.Country;
 import com.myeconomy.worldeconomyindex.repository.CountryRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,9 +39,24 @@ public class CountryService {
         return countryList;
     }
 
-    public void deleteCountryById(Long countryId) {
+    public void deleteCountry(Long countryId) {
         Country country = countryRepository.findById(countryId).orElseThrow(() -> new NoDataAvailable("CountryId not available to delete"));
 
         countryRepository.delete(country);
+    }
+
+    @Transactional
+    public void updateCountry(Long countryId, String countryName, String continentName, String subContinentName) {
+        Country country = countryRepository.findById(countryId).orElseThrow(() -> new NoDataAvailable("CountryId not available to update"));
+
+        Optional<Country> countryOptional = countryRepository.findCountryByCountryName(countryName);
+
+        if (countryOptional.isPresent()) {
+            throw new DataExistingException("CountryName already exists");
+        }
+
+        country.setCountryName(countryName);
+        country.setContinentName(continentName);
+        country.setSubContinentName(subContinentName);
     }
 }
