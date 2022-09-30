@@ -1,5 +1,6 @@
 package com.myeconomy.worldeconomyindex.controller;
 
+import com.myeconomy.worldeconomyindex.model.Country;
 import com.myeconomy.worldeconomyindex.model.Currency;
 import com.myeconomy.worldeconomyindex.service.CurrencyService;
 import org.springframework.http.HttpStatus;
@@ -35,4 +36,20 @@ public class CurrencyController {
         return new ResponseEntity<>(currencyService.getCurrencies(), HttpStatus.OK);
     }
 
+    @PutMapping(path = "currencies/{currencyId}")
+    public ResponseEntity<?> updateCurrency(
+            @PathVariable("currencyId") Long currencyId,
+            @RequestBody Currency currency
+    ) {
+        currencyService.updateCurrency(currencyId, currency);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping(path = "currencies/{currencyId}")
+    public ResponseEntity<?> deleteCurrency(
+            @PathVariable("currencyId") Long currencyId
+    ) {
+        currencyService.deleteCurrency(currencyId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

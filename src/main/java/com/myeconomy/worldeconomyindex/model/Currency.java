@@ -43,4 +43,8 @@ public class Currency {
     )
     private List<Country> countryList;
 
+    public Currency(String currencyName, List<Country> countryList) {
+        this.currencyName = currencyName;
+        this.countryList = countryList;
+    }
 }
