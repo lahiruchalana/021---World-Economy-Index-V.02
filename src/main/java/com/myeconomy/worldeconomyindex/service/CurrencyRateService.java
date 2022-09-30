@@ -74,10 +74,8 @@ public class CurrencyRateService {
 
     public List<CurrencyRate> getCurrencyRatesByCurrencyAndEqualsCurrency(String currencyName, String  equalsCurrencyName, String sortingProperty, String order) {
 
-        // sorting by year-month-day in ascending for initial loading of all data by currency and equals currency
+        // sorting by date/currencyRateValue/id with asc or desc
         List<CurrencyRate> currencyRatesByCurrencyCurrencyNameAndEqualsCurrencyCurrencyName = currencyRateRepository.getCurrencyRatesByCurrencyCurrencyNameAndEqualsCurrencyCurrencyNameOrderByYearAscMonthAscDayAsc(currencyName, equalsCurrencyName);
-
-        // sorting by year-month-day in descending for initial loading of all data by currency and equals currency
         if (sortingProperty.equals("Date") && order.equals("Desc")) {
             currencyRatesByCurrencyCurrencyNameAndEqualsCurrencyCurrencyName = currencyRateRepository.getCurrencyRatesByCurrencyCurrencyNameAndEqualsCurrencyCurrencyNameOrderByYearDescMonthDescDayDesc(currencyName, equalsCurrencyName);
         } else if (sortingProperty.equals("Value") && order.equals("Asc")) {
