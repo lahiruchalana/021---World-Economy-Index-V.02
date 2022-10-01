@@ -24,8 +24,13 @@ public class EconomyIndex {
             generator = "economy_index_sequence"
     )
     private Long economyIndexId;
-    private Integer rankValue;
-    private Float rateValue;
+    private Integer overallRank;
+    private Float overallRate;
+    private Integer economyFreedomRank;
+    private Float economyFreedomRate;
+    private Float globalShareOfEconomy;
+    private Float gdp;
+    private Float gnp;
 
     @OneToOne(
             fetch = FetchType.EAGER
