@@ -12,4 +12,6 @@ public interface EconomyIndexRepository extends JpaRepository<EconomyIndex, Long
 
     @Query("select s from EconomyIndex s where s.country.countryName = ?1")
     Optional<EconomyIndex> findEconomyIndexByCountryName(String countryName);
+
+    Optional<EconomyIndex> findEconomyIndexByCountryCountryId(Long countryId);
 }

@@ -35,4 +35,20 @@ public class EconomyIndexController {
         return new ResponseEntity<>(economyIndexService.getEconomyIndexes(), HttpStatus.OK);
     }
 
+    @PutMapping(path = "indexes/{economyIndexId}")
+    public ResponseEntity<?> updateEconomyIndex(
+            @PathVariable("economyIndexId") Long economyIndexId,
+            @RequestBody EconomyIndex economyIndex
+    ) {
+        economyIndexService.updateEconomyIndex(economyIndexId, economyIndex);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping(path = "indexes/{economyIndexId}")
+    public ResponseEntity<?> deleteEconomyIndex(
+            @PathVariable("economyIndexId") Long economyIndexId
+    ) {
+        economyIndexService.deleteEconomyIndex(economyIndexId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
