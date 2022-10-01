@@ -22,4 +22,8 @@ public class GdpService {
     public List<Gdp> getGdps() {
         return gdpRepository.findAll();
     }
+
+    public List<Gdp> getGdpsByCountryName(String countryName) {
+        return gdpRepository.findGdpsByCountryCountryName(countryName);
+    }
 }

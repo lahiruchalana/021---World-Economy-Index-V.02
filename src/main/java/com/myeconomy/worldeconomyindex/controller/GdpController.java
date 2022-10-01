@@ -34,4 +34,11 @@ public class GdpController {
     public ResponseEntity<List<Gdp>> getGdps() {
         return new ResponseEntity<>(gdpService.getGdps(), HttpStatus.OK);
     }
+
+    @GetMapping(path = "countries/{countryName}/gdps")
+    public ResponseEntity<List<Gdp>> getGdpsByCountryName(
+            @PathVariable("countryName") String countryName
+    ) {
+        return new ResponseEntity<>(gdpService.getGdpsByCountryName(countryName), HttpStatus.OK);
+    }
 }

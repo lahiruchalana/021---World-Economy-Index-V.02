@@ -4,8 +4,10 @@ import com.myeconomy.worldeconomyindex.model.Gdp;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface GdpRepository extends JpaRepository<Gdp, Long> {
 
-
+    List<Gdp> findGdpsByCountryCountryName(String countryName);
 }
