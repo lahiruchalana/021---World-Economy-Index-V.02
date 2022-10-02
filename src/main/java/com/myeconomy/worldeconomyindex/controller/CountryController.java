@@ -2,11 +2,13 @@ package com.myeconomy.worldeconomyindex.controller;
 
 import com.myeconomy.worldeconomyindex.model.Country;
 import com.myeconomy.worldeconomyindex.service.CountryService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(
@@ -33,6 +35,21 @@ public class CountryController {
     @GetMapping
     public ResponseEntity<List<Country>> getCountries() {
         return new ResponseEntity<>(countryService.getCountries(), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "countries/{countryName}")
+    public ResponseEntity<Optional<Country>> getCountries(
+            @PathVariable("countryName") String countryName
+    ) {
+        return new ResponseEntity<>(countryService.getCountriesByName(countryName), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "countries-pagination")
+    public ResponseEntity<Page<Country>> getCountries(
+            @RequestParam(required = false) Integer pageNumber,
+            @RequestParam(required = false) Integer pageSize
+    ) {
+        return new ResponseEntity<>(countryService.getCountriesWithPagination(pageNumber, pageSize), HttpStatus.OK);
     }
 
     @DeleteMapping(path = "countries/{countryId}")
