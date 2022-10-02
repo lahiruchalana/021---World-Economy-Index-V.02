@@ -45,6 +45,32 @@ public class GdpService {
         return gdpList;
     }
 
+    public List<Gdp> getGdpsByCountryNameWithSorting(String countryName, String sortingProperty, String order) {
+        List<Gdp> gdpList = gdpRepository.findGdpsByCountryCountryNameOrderByYearMonthAsc(countryName);
+
+        if (sortingProperty.equals("Date") && order.equals("Desc")) {
+            gdpList = gdpRepository.findGdpsByCountryCountryNameOrderByYearMonthDesc(countryName);
+        } else if (sortingProperty.equals("gdpValue") && order.equals("Asc")) {
+            gdpList = gdpRepository.findGdpsByCountryCountryNameOrderByGdpValueAsc(countryName);
+        } else if (sortingProperty.equals("gdpValue") && order.equals("Desc")) {
+            gdpList = gdpRepository.findGdpsByCountryCountryNameOrderByGdpValueDesc(countryName);
+        } else if (sortingProperty.equals("gdpGrowthRate") && order.equals("Asc")) {
+            gdpList = gdpRepository.findGdpsByCountryCountryNameOrderByGdpGrowthRateAsc(countryName);
+        } else if (sortingProperty.equals("gdpGrowthRate") && order.equals("Desc")) {
+            gdpList = gdpRepository.findGdpsByCountryCountryNameOrderByGdpGrowthRateDesc(countryName);
+        } else if (sortingProperty.equals("gdpPerCapita") && order.equals("Asc")) {
+            gdpList = gdpRepository.findGdpsByCountryCountryNameOrderByGdpPerCapitaAsc(countryName);
+        } else if (sortingProperty.equals("gdpPerCapita") && order.equals("Desc")) {
+            gdpList = gdpRepository.findGdpsByCountryCountryNameOrderByGdpPerCapitaDesc(countryName);
+        }
+
+        if (gdpList.isEmpty()) {
+            throw new NoDataAvailableException("CountryId does not exist any Gdp data!!!");
+        }
+
+        return gdpList;
+    }
+
     @Transactional
     public void updateGdp(Long countryId, Long gdpId, Gdp gdp) {
         Gdp gdpExist = gdpRepository.findById(gdpId).orElseThrow(() -> new NoDataAvailableException("Gdp does not exist for the relevant gdpId!!!"));

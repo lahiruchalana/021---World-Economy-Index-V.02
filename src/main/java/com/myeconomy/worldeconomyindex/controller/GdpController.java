@@ -49,6 +49,15 @@ public class GdpController {
         return new ResponseEntity<>(gdpService.getGdpsByCountryId(countryId), HttpStatus.OK);
     }
 
+    @GetMapping(path = "countries/{countryName}/gdps-by-name-sorting")
+    public ResponseEntity<List<Gdp>> getGdpsByCountryNameWithSorting(
+            @PathVariable("countryName") String countryName,
+            @RequestParam(required = false) String sortingProperty,
+            @RequestParam(required = false) String order
+    ) {
+        return new ResponseEntity<>(gdpService.getGdpsByCountryNameWithSorting(countryName, sortingProperty, order), HttpStatus.OK);
+    }
+
     @PutMapping(path = "countries/{countryId}/gdps/{gdpId}")
     public ResponseEntity<?> updateGdp(
             @PathVariable("countryId") Long countryId,
