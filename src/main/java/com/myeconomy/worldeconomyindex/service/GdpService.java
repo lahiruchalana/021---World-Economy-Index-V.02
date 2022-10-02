@@ -74,30 +74,30 @@ public class GdpService {
         return gdpList;
     }
 
-    public Page<Gdp> getGdpsByCountryNameWithSorting(String countryName, Integer pageNumber, Integer pageSize, String sortingProperty, String order) {
-        Page<Gdp> gdpList = gdpRepository.findGdpsByCountryCountryNameOrderByYearMonthAsc(countryName, (Pageable) PageRequest.of(pageNumber, pageSize));
+    public Page<Gdp> getGdpsByCountryNameWithPagination(String countryName, Integer pageNumber, Integer pageSize, String sortingProperty, String order) {
+        Page<Gdp> gdpPage = gdpRepository.getGdpByCountryCountryNameOrderByYearMonthAsc(countryName, PageRequest.of(pageNumber, pageSize));
 
         if (sortingProperty.equals("Date") && order.equals("Desc")) {
-            gdpList = gdpRepository.findGdpsByCountryCountryNameOrderByYearMonthDesc(countryName, (Pageable) PageRequest.of(pageNumber, pageSize));
+            gdpPage = gdpRepository.getGdpByCountryCountryNameOrderByYearMonthDesc(countryName, PageRequest.of(pageNumber, pageSize));
         } else if (sortingProperty.equals("gdpValue") && order.equals("Asc")) {
-            gdpList = gdpRepository.findGdpsByCountryCountryNameOrderByGdpValueAsc(countryName, (Pageable) PageRequest.of(pageNumber, pageSize));
+            gdpPage = gdpRepository.getGdpByCountryCountryNameOrderByGdpValueAsc(countryName, PageRequest.of(pageNumber, pageSize));
         } else if (sortingProperty.equals("gdpValue") && order.equals("Desc")) {
-            gdpList = gdpRepository.findGdpsByCountryCountryNameOrderByGdpValueDesc(countryName, (Pageable) PageRequest.of(pageNumber, pageSize));
+            gdpPage = gdpRepository.getGdpByCountryCountryNameOrderByGdpValueDesc(countryName, PageRequest.of(pageNumber, pageSize));
         } else if (sortingProperty.equals("gdpGrowthRate") && order.equals("Asc")) {
-            gdpList = gdpRepository.findGdpsByCountryCountryNameOrderByGdpGrowthRateAsc(countryName, (Pageable) PageRequest.of(pageNumber, pageSize));
+            gdpPage = gdpRepository.getGdpByCountryCountryNameOrderByGdpGrowthRateAsc(countryName, PageRequest.of(pageNumber, pageSize));
         } else if (sortingProperty.equals("gdpGrowthRate") && order.equals("Desc")) {
-            gdpList = gdpRepository.findGdpsByCountryCountryNameOrderByGdpGrowthRateDesc(countryName, (Pageable) PageRequest.of(pageNumber, pageSize));
+            gdpPage = gdpRepository.getGdpByCountryCountryNameOrderByGdpGrowthRateDesc(countryName, PageRequest.of(pageNumber, pageSize));
         } else if (sortingProperty.equals("gdpPerCapita") && order.equals("Asc")) {
-            gdpList = gdpRepository.findGdpsByCountryCountryNameOrderByGdpPerCapitaAsc(countryName, (Pageable) PageRequest.of(pageNumber, pageSize));
+            gdpPage = gdpRepository.getGdpByCountryCountryNameOrderByGdpPerCapitaAsc(countryName, PageRequest.of(pageNumber, pageSize));
         } else if (sortingProperty.equals("gdpPerCapita") && order.equals("Desc")) {
-            gdpList = gdpRepository.findGdpsByCountryCountryNameOrderByGdpPerCapitaDesc(countryName, (Pageable) PageRequest.of(pageNumber, pageSize));
+            gdpPage = gdpRepository.getGdpByCountryCountryNameOrderByGdpPerCapitaDesc(countryName, PageRequest.of(pageNumber, pageSize));
         }
 
-        if (gdpList.isEmpty()) {
+        if (gdpPage.isEmpty()) {
             throw new NoDataAvailableException("CountryId does not exist any Gdp data!!!");
         }
 
-        return gdpList;
+        return gdpPage;
     }
 
     @Transactional

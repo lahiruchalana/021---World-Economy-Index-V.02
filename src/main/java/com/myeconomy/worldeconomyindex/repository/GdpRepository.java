@@ -2,11 +2,11 @@ package com.myeconomy.worldeconomyindex.repository;
 
 import com.myeconomy.worldeconomyindex.model.Gdp;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.awt.print.Pageable;
 import java.time.YearMonth;
 import java.util.List;
 
@@ -34,19 +34,19 @@ public interface GdpRepository extends JpaRepository<Gdp, Long> {
 
     List<Gdp> findGdpsByCountryCountryNameOrderByGdpPerCapitaDesc(String countryName);
 
-    Page<Gdp> findGdpsByCountryCountryNameOrderByYearMonthAsc(String countryName, Pageable pageable);
+    Page<Gdp> getGdpByCountryCountryNameOrderByYearMonthAsc(String countryName, Pageable pageable);
 
-    Page<Gdp> findGdpsByCountryCountryNameOrderByGdpValueAsc(String countryName, Pageable pageable);
+    Page<Gdp> getGdpByCountryCountryNameOrderByYearMonthDesc(String countryName, Pageable pageable);
 
-    Page<Gdp> findGdpsByCountryCountryNameOrderByGdpGrowthRateAsc(String countryName, Pageable pageable);
+    Page<Gdp> getGdpByCountryCountryNameOrderByGdpValueAsc(String countryName, Pageable pageable);
 
-    Page<Gdp> findGdpsByCountryCountryNameOrderByGdpPerCapitaAsc(String countryName, Pageable pageable);
+    Page<Gdp> getGdpByCountryCountryNameOrderByGdpValueDesc(String countryName, Pageable pageable);
 
-    Page<Gdp> findGdpsByCountryCountryNameOrderByYearMonthDesc(String countryName, Pageable pageable);
+    Page<Gdp> getGdpByCountryCountryNameOrderByGdpGrowthRateAsc(String countryName, Pageable pageable);
 
-    Page<Gdp> findGdpsByCountryCountryNameOrderByGdpValueDesc(String countryName, Pageable pageable);
+    Page<Gdp> getGdpByCountryCountryNameOrderByGdpGrowthRateDesc(String countryName, Pageable pageable);
 
-    Page<Gdp> findGdpsByCountryCountryNameOrderByGdpGrowthRateDesc(String countryName, Pageable pageable);
+    Page<Gdp> getGdpByCountryCountryNameOrderByGdpPerCapitaAsc(String countryName, Pageable pageable);
 
-    Page<Gdp> findGdpsByCountryCountryNameOrderByGdpPerCapitaDesc(String countryName, Pageable pageable);
+    Page<Gdp> getGdpByCountryCountryNameOrderByGdpPerCapitaDesc(String countryName, Pageable pageable);
 }

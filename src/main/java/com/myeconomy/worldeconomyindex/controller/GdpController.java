@@ -2,6 +2,7 @@ package com.myeconomy.worldeconomyindex.controller;
 
 import com.myeconomy.worldeconomyindex.model.Gdp;
 import com.myeconomy.worldeconomyindex.service.GdpService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,6 +57,17 @@ public class GdpController {
             @RequestParam(required = false) String order
     ) {
         return new ResponseEntity<>(gdpService.getGdpsByCountryNameWithSorting(countryName, sortingProperty, order), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "countries/{countryName}/gdps-by-name-pagination")
+    public ResponseEntity<Page<Gdp>> getGdpsByCountryNameWithPagination(
+            @PathVariable("countryName") String countryName,
+            @RequestParam(required = false) Integer pageNumber,
+            @RequestParam(required = false) Integer pageSize,
+            @RequestParam(required = false) String sortingProperty,
+            @RequestParam(required = false) String order
+    ) {
+        return new ResponseEntity<>(gdpService.getGdpsByCountryNameWithPagination(countryName, pageNumber, pageSize, sortingProperty, order), HttpStatus.OK);
     }
 
     @PutMapping(path = "countries/{countryId}/gdps/{gdpId}")

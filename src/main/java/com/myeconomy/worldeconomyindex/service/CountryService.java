@@ -3,7 +3,10 @@ package com.myeconomy.worldeconomyindex.service;
 import com.myeconomy.worldeconomyindex.exceptions.DataExistingException;
 import com.myeconomy.worldeconomyindex.exceptions.NoDataAvailableException;
 import com.myeconomy.worldeconomyindex.model.Country;
+import com.myeconomy.worldeconomyindex.model.CurrencyRate;
 import com.myeconomy.worldeconomyindex.repository.CountryRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -31,6 +34,26 @@ public class CountryService {
 
     public List<Country> getCountries() {
         List<Country> countryList = countryRepository.findAll();
+
+        if (countryList.isEmpty()) {
+            throw new NoDataAvailableException("No available country data!!!");
+        }
+
+        return countryList;
+    }
+
+    public Optional<Country> getCountriesByName(String countryName) {
+        Optional<Country> countryList = countryRepository.findCountryByCountryName(countryName);
+
+        if (countryList.isEmpty()) {
+            throw new NoDataAvailableException("No available country data!!!");
+        }
+
+        return countryList;
+    }
+
+    public Page<Country> getCountriesWithPagination(Integer pageNumber, Integer pageSize) {
+        Page<Country> countryList = countryRepository.findCountriesByOrderByCountryNameAsc(PageRequest.of(pageNumber, pageSize));
 
         if (countryList.isEmpty()) {
             throw new NoDataAvailableException("No available country data!!!");
