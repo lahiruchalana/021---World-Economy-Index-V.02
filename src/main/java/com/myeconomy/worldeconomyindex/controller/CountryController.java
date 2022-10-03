@@ -63,11 +63,9 @@ public class CountryController {
     @PutMapping(path = "countries/{countryID}")
     public ResponseEntity<?> updateCountry(
             @PathVariable("countryID") Long countryId,
-            @RequestParam(required = false) String countryName,
-            @RequestParam(required = false) String continentName,
-            @RequestParam(required = false) String subContinentName
+            @RequestBody Country country
     ) {
-        countryService.updateCountry(countryId, countryName, continentName, subContinentName);
+        countryService.updateCountry(countryId, country.getCountryName(), country.getContinentName(), country.getSubContinentName());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
