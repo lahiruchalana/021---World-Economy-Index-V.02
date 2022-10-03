@@ -4,6 +4,8 @@ import com.myeconomy.worldeconomyindex.exceptions.DataExistingException;
 import com.myeconomy.worldeconomyindex.exceptions.NoDataAvailableException;
 import com.myeconomy.worldeconomyindex.model.Currency;
 import com.myeconomy.worldeconomyindex.repository.CurrencyRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -31,6 +33,16 @@ public class CurrencyService {
 
     public List<Currency> getCurrencies() {
         return currencyRepository.findAll();
+    }
+
+    public Page<Currency> getCurrenciesWithPagination(Integer pageNumber, Integer pageSize) {
+        Page<Currency> currencyPage = currencyRepository.findCurrenciesByOrderByCurrencyNameAsc(PageRequest.of(pageNumber, pageSize));
+
+        if (currencyPage.isEmpty()) {
+            throw new NoDataAvailableException("No available currency data!!!");
+        }
+
+        return currencyPage;
     }
 
     @Transactional

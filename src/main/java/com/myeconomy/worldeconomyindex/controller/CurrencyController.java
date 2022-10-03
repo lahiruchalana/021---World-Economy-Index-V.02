@@ -3,6 +3,7 @@ package com.myeconomy.worldeconomyindex.controller;
 import com.myeconomy.worldeconomyindex.model.Country;
 import com.myeconomy.worldeconomyindex.model.Currency;
 import com.myeconomy.worldeconomyindex.service.CurrencyService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +35,14 @@ public class CurrencyController {
     @GetMapping
     public ResponseEntity<List<Currency>> getCurrencies() {
         return new ResponseEntity<>(currencyService.getCurrencies(), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "currencies-pagination")
+    public ResponseEntity<Page<Currency>> getCurrenciesWithPagination(
+            @RequestParam(required = false) Integer pageNumber,
+            @RequestParam(required = false) Integer pageSize
+    ) {
+        return new ResponseEntity<>(currencyService.getCurrenciesWithPagination(pageNumber, pageSize), HttpStatus.OK);
     }
 
     @PutMapping(path = "currencies/{currencyId}")
